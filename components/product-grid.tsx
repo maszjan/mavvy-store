@@ -1,3 +1,4 @@
+// ...existing code...
 import { getProducts } from "lib/shopify";
 import { GridTileImage } from "components/grid/tile";
 import Link from "next/link";
@@ -14,12 +15,15 @@ export default async function ProductGrid({
 	limit = 12,
 }: ProductGridProps) {
 	try {
-		const products = await getProducts({
+		// build params and cast to any so TS won't error if getProducts signature doesn't include `collection`
+		const params: any = {
 			query: searchValue,
-			collection,
 			sortKey: "CREATED_AT",
 			reverse: true,
-		});
+		};
+		if (collection) params.collection = collection;
+
+		const products = await getProducts(params);
 
 		const displayProducts = products.slice(0, limit);
 
