@@ -1,22 +1,21 @@
-// components/category-nav.tsx
 import { getCollections } from "lib/shopify";
 import Link from "next/link";
 import { Suspense } from "react";
+import { FaShoppingBag, FaUser, FaGem, FaGift, FaGhost } from "react-icons/fa";
+import { GiPumpkin } from "react-icons/gi";
 
 const predefinedCategories = [
-	{ handle: "all", title: "All Products", icon: "🛍️" },
-	{ handle: "seasonal", title: "Seasonal", icon: "🍂" },
-	{ handle: "halloween", title: "Halloween", icon: "🎃" },
-	{ handle: "christmas", title: "Christmas", icon: "🎄" },
-	{ handle: "novelty", title: "Novelty", icon: "🎁" },
-	{ handle: "gifts", title: "Gifts", icon: "💝" },
+	{ handle: "all", title: "All Products", icon: FaShoppingBag },
+	{ handle: "costumes", title: "Costumes", icon: FaUser },
+	{ handle: "jewelry", title: "Jewelry", icon: FaGem },
+	{ handle: "gadgets", title: "Gadgets", icon: FaGift },
+	{ handle: "decorations", title: "Decorations", icon: GiPumpkin },
 ];
 
 async function CategoryList() {
 	try {
 		const collections = await getCollections();
 
-		// Merge predefined with Shopify collections
 		const allCategories = predefinedCategories.map((predef) => {
 			const shopifyCollection = collections.find(
 				(c) => c.handle === predef.handle,
@@ -27,46 +26,68 @@ async function CategoryList() {
 		});
 
 		return (
-			<div className='grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6'>
-				{allCategories.map((category) => (
-					<Link
-						key={category.handle}
-						href={
-							category.handle === "all"
-								? "/"
-								: `/search?collection=${category.handle}`
-						}
-						className='group flex flex-col items-center rounded-xl bg-white p-6 shadow-sm transition-all hover:scale-105 hover:shadow-md dark:bg-neutral-800'>
-						<div className='text-4xl mb-3 group-hover:scale-110 transition-transform'>
-							{category.icon}
-						</div>
-						<span className='text-sm font-medium text-gray-900 dark:text-white'>
-							{category.title}
-						</span>
-					</Link>
-				))}
+			<div className='flex justify-center'>
+				<div className='flex flex-wrap justify-center gap-6 max-w-7xl w-full'>
+					{allCategories.map((category) => {
+						const IconComponent = category.icon;
+						return (
+							<Link
+								key={category.handle}
+								href={
+									category.handle === "all"
+										? "/"
+										: `/search?collection=${category.handle}`
+								}
+								className='group relative flex flex-col items-center justify-center rounded-xl bg-white p-6 shadow-sm transition-transform hover:scale-105 hover:shadow-md dark:bg-neutral-800 w-40 sm:w-44 lg:w-52'>
+								{/* small seasonal badge */}
+								<span className='absolute -top-2 -right-2 rounded-full bg-orange-500 text-white text-xs px-2 py-1 opacity-90 transform rotate-6'>
+									🎃
+								</span>
+
+								<IconComponent
+									className='mb-3 text-gray-700 dark:text-gray-300 group-hover:text-orange-500'
+									size={40}
+								/>
+								<span className='text-sm font-medium text-gray-900 dark:text-white text-center'>
+									{category.title}
+								</span>
+							</Link>
+						);
+					})}
+				</div>
 			</div>
 		);
 	} catch (error) {
+		// Fallback simplified fallback with same centering
 		return (
-			<div className='grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6'>
-				{predefinedCategories.map((category) => (
-					<Link
-						key={category.handle}
-						href={
-							category.handle === "all"
-								? "/"
-								: `/search?collection=${category.handle}`
-						}
-						className='group flex flex-col items-center rounded-xl bg-white p-6 shadow-sm transition-all hover:scale-105 hover:shadow-md dark:bg-neutral-800'>
-						<div className='text-4xl mb-3 group-hover:scale-110 transition-transform'>
-							{category.icon}
-						</div>
-						<span className='text-sm font-medium text-gray-900 dark:text-white'>
-							{category.title}
-						</span>
-					</Link>
-				))}
+			<div className='flex justify-center'>
+				<div className='flex flex-wrap justify-center gap-6 max-w-7xl w-full'>
+					{predefinedCategories.map((category) => {
+						const IconComponent = category.icon;
+						return (
+							<Link
+								key={category.handle}
+								href={
+									category.handle === "all"
+										? "/"
+										: `/search?collection=${category.handle}`
+								}
+								className='group relative flex flex-col items-center justify-center rounded-xl bg-white p-6 shadow-sm transition-transform hover:scale-105 hover:shadow-md dark:bg-neutral-800 w-40 sm:w-44 lg:w-52'>
+								<span className='absolute -top-2 -right-2 rounded-full bg-orange-500 text-white text-xs px-2 py-1 opacity-90 transform rotate-6'>
+									🎃
+								</span>
+
+								<IconComponent
+									className='mb-3 text-gray-700 dark:text-gray-300 group-hover:text-orange-500'
+									size={40}
+								/>
+								<span className='text-sm font-medium text-gray-900 dark:text-white text-center'>
+									{category.title}
+								</span>
+							</Link>
+						);
+					})}
+				</div>
 			</div>
 		);
 	}

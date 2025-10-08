@@ -1,4 +1,3 @@
-// components/layout/footer/index.tsx
 import Link from "next/link";
 import Image from "next/image";
 import FooterMenu from "components/layout/footer-menu";
@@ -34,7 +33,7 @@ export default async function Footer() {
 						<span className='uppercase font-medium'>{SITE_NAME}</span>
 					</Link>
 					<p className='max-w-xs text-neutral-600 dark:text-neutral-300'>
-						Discover amazing seasonal and novelty products for every occasion.
+						Spooky seasonal goodies and Halloween surprises await you.
 					</p>
 				</div>
 
@@ -53,33 +52,13 @@ export default async function Footer() {
 					<FooterMenu menu={menu} />
 				</Suspense>
 
-				{/* Categories Section */}
+				{/* Categories Section: only Halloween */}
 				<div className='flex flex-col gap-2'>
 					<h3 className='font-medium text-black dark:text-white'>Categories</h3>
-					<Link
-						href='/search?collection=seasonal'
-						className='hover:text-black dark:hover:text-white'>
-						Seasonal Items
-					</Link>
-					<Link
-						href='/search?collection=novelty'
-						className='hover:text-black dark:hover:text-white'>
-						Novelty Products
-					</Link>
 					<Link
 						href='/search?collection=halloween'
 						className='hover:text-black dark:hover:text-white'>
 						Halloween
-					</Link>
-					<Link
-						href='/search?collection=christmas'
-						className='hover:text-black dark:hover:text-white'>
-						Christmas
-					</Link>
-					<Link
-						href='/search?collection=gifts'
-						className='hover:text-black dark:hover:text-white'>
-						Gifts
 					</Link>
 				</div>
 

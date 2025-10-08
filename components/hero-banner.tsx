@@ -1,37 +1,46 @@
-// components/hero-banner.tsx
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
-const banners = [
+type Banner = {
+	id: number;
+	title: string;
+	subtitle: string;
+	cta: string;
+	link: string;
+	bgColor: string;
+	image?: string;
+};
+
+const banners: Banner[] = [
 	{
 		id: 1,
-		title: "Halloween Collection 2025",
-		subtitle: "Spooky decorations and costumes for the perfect Halloween",
-		cta: "Shop Halloween",
-		link: "/search?collection=halloween",
+		title: "Halloween Collection",
+		subtitle: "Spooky clothes and costumes for the perfect night",
+		cta: "Shop Costumes",
+		link: "/search?collection=costumes",
 		bgColor: "from-orange-600 to-red-600",
-		image: "/banners/halloween.jpg", // Add your banner images
+		image: "/banners/baner-1.png",
 	},
 	{
 		id: 2,
-		title: "Holiday Gifts",
-		subtitle: "Unique and thoughtful gifts for every occasion",
-		cta: "Shop Gifts",
-		link: "/search?collection=gifts",
-		bgColor: "from-green-600 to-blue-600",
-		image: "/banners/gifts.jpg",
+		title: "Creepy Decorations",
+		subtitle: "Jack-o'-lanterns, garlands and eerie lights for your home",
+		cta: "Shop Decorations",
+		link: "/search?collection=decorations",
+		bgColor: "from-yellow-600 to-orange-700",
+		image: "/banners/baner-2.png",
 	},
 	{
 		id: 3,
-		title: "Seasonal Favorites",
-		subtitle: "Trending products for every season",
-		cta: "Shop Now",
-		link: "/search?collection=seasonal",
-		bgColor: "from-purple-600 to-pink-600",
-		image: "/banners/seasonal.jpg",
+		title: "Masks & Costumes",
+		subtitle: "Authentic masks, props and family costumes",
+		cta: "Shop Masks",
+		link: "/search?collection=masks",
+		bgColor: "from-blue-700 to-purple-800",
+		image: "/banners/baner-3.png",
 	},
 ];
 
@@ -41,8 +50,7 @@ export default function HeroBanner() {
 	useEffect(() => {
 		const timer = setInterval(() => {
 			setCurrentBanner((prev) => (prev + 1) % banners.length);
-		}, 5000); // Change banner every 5 seconds
-
+		}, 5000);
 		return () => clearInterval(timer);
 	}, []);
 
@@ -50,17 +58,19 @@ export default function HeroBanner() {
 
 	return (
 		<section className='relative h-[70vh] min-h-[500px] w-full overflow-hidden'>
-			{/* Background */}
-			<div className={`absolute inset-0 bg-gradient-to-r ${banner.bgColor}`}>
-				{/* Optional: Background image */}
+			{/* Background gradient + optional image */}
+			<div
+				className={`absolute inset-0 bg-gradient-to-r ${banner.bgColor}`}
+				aria-hidden>
 				{banner.image && (
-					<div className='absolute inset-0 opacity-30'>
+					<div className='absolute inset-0 opacity-80'>
 						<Image
 							src={banner.image}
 							alt={banner.title}
 							fill
-							className='object-cover'
+							sizes='100vw'
 							priority
+							className='object-cover'
 						/>
 					</div>
 				)}
@@ -73,9 +83,10 @@ export default function HeroBanner() {
 						<h1 className='text-4xl font-bold text-white sm:text-5xl lg:text-6xl'>
 							{banner.title}
 						</h1>
-						<p className='mt-6 text-xl text-white/90 sm:text-2xl'>
+						<p className='mt-6 text-xl font-semibold text-white/90 sm:text-2xl'>
 							{banner.subtitle}
 						</p>
+
 						<div className='mt-8 flex flex-col gap-4 sm:flex-row'>
 							<Link
 								href={banner.link}
@@ -92,11 +103,13 @@ export default function HeroBanner() {
 				</div>
 			</div>
 
-			{/* Banner Indicators */}
+			{/* Indicators */}
 			<div className='absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 space-x-2'>
 				{banners.map((_, index) => (
 					<button
 						key={index}
+						type='button'
+						aria-label={`Show slide ${index + 1}`}
 						onClick={() => setCurrentBanner(index)}
 						className={`h-3 w-3 rounded-full transition-all ${
 							index === currentBanner
@@ -109,6 +122,8 @@ export default function HeroBanner() {
 
 			{/* Navigation Arrows */}
 			<button
+				type='button'
+				aria-label='Previous slide'
 				onClick={() =>
 					setCurrentBanner(
 						(prev) => (prev - 1 + banners.length) % banners.length,
@@ -128,7 +143,10 @@ export default function HeroBanner() {
 					/>
 				</svg>
 			</button>
+
 			<button
+				type='button'
+				aria-label='Next slide'
 				onClick={() => setCurrentBanner((prev) => (prev + 1) % banners.length)}
 				className='absolute right-4 top-1/2 z-10 -translate-y-1/2 rounded-full bg-black/20 p-2 text-white transition-all hover:bg-black/40'>
 				<svg
