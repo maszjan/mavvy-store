@@ -54,7 +54,7 @@ export default function HeroBanner() {
 		return () => clearInterval(timer);
 	}, []);
 
-	const banner = banners[currentBanner];
+	const banner = banners[currentBanner]!;
 
 	return (
 		<section className='relative h-[70vh] min-h-[500px] w-full overflow-hidden'>
