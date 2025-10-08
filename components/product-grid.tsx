@@ -1,4 +1,3 @@
-// components/product-grid.tsx
 import { getProducts } from "lib/shopify";
 import { GridTileImage } from "components/grid/tile";
 import Link from "next/link";
@@ -17,7 +16,7 @@ export default async function ProductGrid({
 	try {
 		const products = await getProducts({
 			query: searchValue,
-			collection: collection,
+			collection,
 			sortKey: "CREATED_AT",
 			reverse: true,
 		});

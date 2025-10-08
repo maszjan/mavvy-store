@@ -1,31 +1,27 @@
-// app/page.tsx
 import { Suspense } from "react";
-import { getProducts, getCollections } from "lib/shopify";
 import Footer from "components/layout/footer";
 import HeroBanner from "components/hero-banner";
 import CategoryNav from "components/category-nav";
 import ProductGrid from "components/product-grid";
-import FeaturedSection from "components/featured-section";
 
 export const metadata = {
 	description:
-		"Discover amazing seasonal and novelty products at Mavvy Store. Quality items for every occasion.",
+		"Discover spooky and exclusive Halloween 2025 products at Mavvy Store. Perfect for the season.",
 	openGraph: {
 		type: "website",
-		title: "Mavvy Store - Seasonal & Novelty Products",
+		title: "Mavvy Store - Halloween 2025 Specials",
 		description:
-			"Discover amazing seasonal and novelty products at Mavvy Store.",
+			"Discover exclusive seasonal Halloween 2025 products at Mavvy Store.",
 	},
 };
 
-// Loading Components
 function ProductGridSkeleton() {
 	return (
 		<div className='grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4'>
 			{Array.from({ length: 8 }).map((_, i) => (
 				<div
 					key={i}
-					className='aspect-square animate-pulse rounded-lg bg-neutral-200 dark:bg-neutral-700'
+					className='aspect-square animate-pulse rounded-lg bg-orange-200 dark:bg-orange-800'
 				/>
 			))}
 		</div>
@@ -38,7 +34,7 @@ function CategoryNavSkeleton() {
 			{Array.from({ length: 6 }).map((_, i) => (
 				<div
 					key={i}
-					className='h-10 w-24 animate-pulse rounded-full bg-neutral-200 dark:bg-neutral-700'
+					className='h-10 w-24 animate-pulse rounded-full bg-orange-200 dark:bg-orange-800'
 				/>
 			))}
 		</div>
@@ -48,30 +44,28 @@ function CategoryNavSkeleton() {
 export default async function HomePage({
 	searchParams,
 }: {
-	searchParams?: { [key: string]: string | string[] | undefined };
+	searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-	// Get search and filter parameters
-	const searchValue =
-		typeof searchParams?.q === "string" ? searchParams.q : undefined;
+	const params = searchParams ? await searchParams : {};
+
+	const searchValue = typeof params.q === "string" ? params.q : undefined;
+
 	const collection =
-		typeof searchParams?.collection === "string"
-			? searchParams.collection
-			: undefined;
+		typeof params.collection === "string" ? params.collection : "all";
 
 	return (
 		<>
-			{/* Full Width Hero Banner */}
 			<HeroBanner />
 
-			{/* Categories Section */}
-			<section className='bg-white py-12 dark:bg-black'>
+			<section className='bg-orange-50 dark:bg-orange-900 py-12'>
 				<div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
 					<div className='text-center mb-8'>
-						<h2 className='text-3xl font-bold text-gray-900 dark:text-white'>
-							Shop by Category
+						<h2 className='text-4xl font-bold text-orange-800 dark:text-orange-300'>
+							🎃 Halloween 2025 Special Collection 🎃
 						</h2>
-						<p className='mt-2 text-lg text-gray-600 dark:text-gray-300'>
-							Find exactly what you're looking for
+						<p className='mt-2 text-lg text-orange-700 dark:text-orange-400'>
+							Get ready for a spooky season with our handpicked Halloween
+							products!
 						</p>
 					</div>
 
@@ -81,29 +75,8 @@ export default async function HomePage({
 				</div>
 			</section>
 
-			{/* Featured Section */}
-			<section className='bg-gray-50 py-12 dark:bg-neutral-900'>
+			<section className='bg-white dark:bg-black py-16'>
 				<div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-					<FeaturedSection />
-				</div>
-			</section>
-
-			{/* Products Grid Section */}
-			<section className='bg-white py-16 dark:bg-black'>
-				<div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-					<div className='mb-8'>
-						<h2 className='text-3xl font-bold text-gray-900 dark:text-white'>
-							{searchValue
-								? `Search results for "${searchValue}"`
-								: collection
-									? `${collection} Products`
-									: "Featured Products"}
-						</h2>
-						<p className='mt-2 text-lg text-gray-600 dark:text-gray-300'>
-							Discover our curated selection of quality products
-						</p>
-					</div>
-
 					<Suspense fallback={<ProductGridSkeleton />}>
 						<ProductGrid searchValue={searchValue} collection={collection} />
 					</Suspense>
