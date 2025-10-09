@@ -363,37 +363,27 @@ export async function getCollections(): Promise<Collection[]> {
 	return collections;
 }
 
-export async function getMenu(handle: string) {
-	try {
-		const res = await shopifyFetch({
-			query: `
-        query getMenu($handle: String!) {
-          menu(handle: $handle) {
-            items {
-              title
-              url
-            }
-          }
-        }
-      `,
-			variables: { handle },
-		});
+export async function getMenu(handle: string): Promise<Menu[]> {
+	"use cache";
+	cacheTag(TAGS.collections);
+	cacheLife("days");
 
-		if (!res.body?.data?.menu) {
-			return [];
-		}
+	const res = await shopifyFetch<ShopifyMenuOperation>({
+		query: getMenuQuery,
+		variables: {
+			handle,
+		},
+	});
 
-		return res.body.data.menu.items.map(
-			(item: { title: string; url: string }) => ({
-				title: item.title,
-				path: item.url,
-			}),
-		);
-	} catch (error) {
-		console.error("Failed to fetch menu:", error);
-		// Return fallback empty menu instead of throwing
-		return [];
-	}
+	return (
+		res.body?.data?.menu?.items.map((item: { title: string; url: string }) => ({
+			title: item.title,
+			path: item.url
+				.replace(domain, "")
+				.replace("/collections", "/search")
+				.replace("/pages", ""),
+		})) || []
+	);
 }
 
 export async function getPage(handle: string): Promise<Page> {
