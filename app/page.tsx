@@ -3,7 +3,7 @@ import Footer from "components/layout/footer";
 import HeroBanner from "components/hero-banner";
 import CategoryNav from "components/category-nav";
 import ProductGrid from "components/product-grid";
-import HalloweenPromo from "components/HalloweenPromo"; // Import Halloween promo component
+import HalloweenPromo from "components/halloween-promo"; 
 
 export const metadata = {
 	description:
