@@ -3,6 +3,7 @@ import Footer from "components/layout/footer";
 import HeroBanner from "components/hero-banner";
 import CategoryNav from "components/category-nav";
 import ProductGrid from "components/product-grid";
+import HalloweenPromo from "components/HalloweenPromo"; // Import Halloween promo component
 
 export const metadata = {
 	description:
@@ -47,14 +48,15 @@ export default async function HomePage({
 	searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
 	const params = searchParams ? await searchParams : {};
-
 	const searchValue = typeof params.q === "string" ? params.q : undefined;
-
 	const collection =
 		typeof params.collection === "string" ? params.collection : "all";
 
 	return (
 		<>
+			{/* Insert HalloweenPromo here */}
+			<HalloweenPromo />
+
 			<HeroBanner />
 
 			<section className='bg-orange-50 dark:bg-orange-900 py-12'>
