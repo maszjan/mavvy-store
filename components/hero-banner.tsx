@@ -22,7 +22,7 @@ const banners: Banner[] = [
 		cta: "Shop Costumes",
 		link: "/search?collection=costumes",
 		bgColor: "from-orange-600 to-red-600",
-		image: "/banners/baner-1.png",
+		image: "/baner-1.png",
 	},
 	{
 		id: 2,
@@ -31,7 +31,7 @@ const banners: Banner[] = [
 		cta: "Shop Decorations",
 		link: "/search?collection=decorations",
 		bgColor: "from-yellow-600 to-orange-700",
-		image: "/banners/baner-2.png",
+		image: "/baner-2.png",
 	},
 	{
 		id: 3,
@@ -40,7 +40,7 @@ const banners: Banner[] = [
 		cta: "Shop Masks",
 		link: "/search?collection=masks",
 		bgColor: "from-blue-700 to-purple-800",
-		image: "/banners/baner-3.png",
+		image: "/baner-3.png",
 	},
 ];
 
