@@ -7,57 +7,41 @@ import { Toaster } from "sonner";
 import Script from "next/script";
 import "./globals.css";
 import { baseUrl } from "lib/utils";
+import { Analytics } from "@vercel/analytics/next";
 
 const { SITE_NAME } = process.env;
 
 export const metadata = {
-  metadataBase: new URL(baseUrl),
-  title: {
-    default: SITE_NAME!,
-    template: `%s | ${SITE_NAME}`,
-  },
-  robots: {
-    follow: true,
-    index: true,
-  },
+	metadataBase: new URL(baseUrl),
+	title: {
+		default: SITE_NAME!,
+		template: `%s | ${SITE_NAME}`,
+	},
+	robots: {
+		follow: true,
+		index: true,
+	},
 };
 
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!;
+export default async function RootLayout({
+	children,
+}: {
+	children: ReactNode;
+}) {
+	const cart = getCart();
 
-export default async function RootLayout({ children }: { children: ReactNode }) {
-  const cart = getCart();
-
-  return (
-    <html lang="en" className={GeistSans.variable}>
-      <head>
-        <Script
-          strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-        />
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${GA_MEASUREMENT_ID}', {
-                page_path: window.location.pathname,
-              });
-            `,
-          }}
-        />
-      </head>
-      <body className="bg-neutral-50 text-black selection:bg-teal-300 dark:bg-neutral-900 dark:text-white dark:selection:bg-pink-500 dark:selection:text-white">
-        <CartProvider cartPromise={cart}>
-          <Navbar />
-          <main>
-            {children}
-            <Toaster closeButton />
-          </main>
-        </CartProvider>
-      </body>
-    </html>
-  );
+	return (
+		<html lang='en' className={GeistSans.variable}>
+			<body className='bg-neutral-50 text-black selection:bg-teal-300 dark:bg-neutral-900 dark:text-white dark:selection:bg-pink-500 dark:selection:text-white'>
+				<CartProvider cartPromise={cart}>
+					<Navbar />
+					<main>
+						{children}
+						<Toaster closeButton />
+					</main>
+					<Analytics />
+				</CartProvider>
+			</body>
+		</html>
+	);
 }
