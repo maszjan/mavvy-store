@@ -1,8 +1,8 @@
 import { getCollections } from "lib/shopify";
 import Link from "next/link";
 import { Suspense } from "react";
-import { FaShoppingBag, FaUser, FaGem, FaGift, FaGhost } from "react-icons/fa";
-import { GiPumpkin } from "react-icons/gi";
+import { FaShoppingBag, FaUser, FaGem, FaGift } from "react-icons/fa";
+import { GiPumpkin, GiPumpkinMask } from "react-icons/gi";
 
 const predefinedCategories = [
 	{ handle: "all", title: "All Products", icon: FaShoppingBag },
@@ -10,6 +10,7 @@ const predefinedCategories = [
 	{ handle: "jewelry", title: "Jewelry", icon: FaGem },
 	{ handle: "gadgets", title: "Gadgets", icon: FaGift },
 	{ handle: "decorations", title: "Decorations", icon: GiPumpkin },
+	{ handle: "masks", title: "Masks", icon: GiPumpkinMask }, // new mask category
 ];
 
 async function CategoryList() {
@@ -26,8 +27,12 @@ async function CategoryList() {
 		});
 
 		return (
-			<div className='flex justify-center'>
-				<div className='flex flex-wrap justify-center gap-6 max-w-7xl w-full'>
+			<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+				<div
+					className='
+                    grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6
+                    lg:flex lg:flex-row lg:gap-8 lg:justify-center lg:items-center lg:w-full lg:space-x-6 lg:space-y-0
+                '>
 					{allCategories.map((category) => {
 						const IconComponent = category.icon;
 						return (
@@ -38,15 +43,12 @@ async function CategoryList() {
 										? "/"
 										: `/search?collection=${category.handle}`
 								}
-								className='group relative flex flex-col items-center justify-center rounded-xl bg-white p-6 shadow-sm transition-transform hover:scale-105 hover:shadow-md dark:bg-neutral-800 w-40 sm:w-44 lg:w-52'>
-								{/* small seasonal badge */}
-								<span className='absolute -top-2 -right-2 rounded-full bg-orange-500 text-white text-xs px-2 py-1 opacity-90 transform rotate-6'>
-									🎃
-								</span>
-
+								className='group flex flex-col items-center justify-center rounded-xl bg-white p-6 shadow-sm transition-transform hover:scale-105 hover:shadow-md dark:bg-neutral-800'
+								aria-label={category.title}>
 								<IconComponent
 									className='mb-3 text-gray-700 dark:text-gray-300 group-hover:text-orange-500'
 									size={40}
+									aria-hidden='true'
 								/>
 								<span className='text-sm font-medium text-gray-900 dark:text-white text-center'>
 									{category.title}
@@ -58,10 +60,14 @@ async function CategoryList() {
 			</div>
 		);
 	} catch (error) {
-		// Fallback simplified fallback with same centering
+		// fallback: same layout without API categories
 		return (
-			<div className='flex justify-center'>
-				<div className='flex flex-wrap justify-center gap-6 max-w-7xl w-full'>
+			<div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+				<div
+					className='
+                    grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6
+                    lg:flex lg:flex-row lg:gap-8 lg:justify-center lg:items-center lg:w-full lg:space-x-6 lg:space-y-0
+                '>
 					{predefinedCategories.map((category) => {
 						const IconComponent = category.icon;
 						return (
@@ -72,14 +78,12 @@ async function CategoryList() {
 										? "/"
 										: `/search?collection=${category.handle}`
 								}
-								className='group relative flex flex-col items-center justify-center rounded-xl bg-white p-6 shadow-sm transition-transform hover:scale-105 hover:shadow-md dark:bg-neutral-800 w-40 sm:w-44 lg:w-52'>
-								<span className='absolute -top-2 -right-2 rounded-full bg-orange-500 text-white text-xs px-2 py-1 opacity-90 transform rotate-6'>
-									🎃
-								</span>
-
+								className='group flex flex-col items-center justify-center rounded-xl bg-white p-6 shadow-sm transition-transform hover:scale-105 hover:shadow-md dark:bg-neutral-800'
+								aria-label={category.title}>
 								<IconComponent
 									className='mb-3 text-gray-700 dark:text-gray-300 group-hover:text-orange-500'
 									size={40}
+									aria-hidden='true'
 								/>
 								<span className='text-sm font-medium text-gray-900 dark:text-white text-center'>
 									{category.title}
