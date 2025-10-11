@@ -1,4 +1,3 @@
-// ...existing code...
 import { getProducts } from "lib/shopify";
 import { GridTileImage } from "components/grid/tile";
 import Link from "next/link";
