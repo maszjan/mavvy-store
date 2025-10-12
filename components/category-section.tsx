@@ -5,8 +5,15 @@ import type { Product } from "lib/shopify/types";
 import React from "react";
 import Link from "next/link";
 import { GridTileImage } from "components/grid/tile";
-import { GiPumpkin, GiIronMask, GiSpiderWeb } from "react-icons/gi";
-import { FaHatWizard, FaGift, FaGem } from "react-icons/fa";
+import {
+	GiPumpkin,
+	GiIronMask,
+	GiSpiderWeb,
+	GiHangingSpider,
+	GiClothes,
+	GiGemNecklace,
+} from "react-icons/gi";
+import { FaHatWizard } from "react-icons/fa";
 import { MdOutlineNightlight } from "react-icons/md";
 
 interface CategorySectionProps {
@@ -20,9 +27,10 @@ const iconMap: Record<
 	React.ComponentType<{ size?: string | number }>
 > = {
 	Costumes: FaHatWizard,
+	Clothes: GiClothes,
 	Decorations: GiSpiderWeb,
-	Gadgets: FaGift,
-	Jewelry: FaGem,
+	Gadgets: GiHangingSpider,
+	Jewelry: GiGemNecklace,
 	Masks: GiIronMask,
 	Halloween2025: MdOutlineNightlight,
 };
